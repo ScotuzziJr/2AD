@@ -1,2 +1,3 @@
 venv/
-setup_env.sh
+*.sh
+__pycache__/

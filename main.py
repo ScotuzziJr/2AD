@@ -1,12 +1,18 @@
 from fastapi import FastAPI
-import data.db
-from data.helpers.commons import (get_all_distros, 
-                                  get_distro_by_name, 
-                                  get_all_desktops,
-                                  get_desktop_by_name,
-                                  get_all_kernels,
-                                  get_kernel_by_name)
+
+from data.db import DataBaseConnection, DataBaseOperationsORM
+from data.models import base
+
 app = FastAPI()
+
+db_conn = DataBaseConnection(base)
+db      = db_conn.create_connection()
+s       = db_conn.create_session(db)
+
+db_orm = DataBaseOperationsORM(db, s, base)
+
+db_orm.recreate_database()
+db_orm.populate_db()
 
 @app.get("/healthcheck")
 def healthcheck():
@@ -14,24 +20,24 @@ def healthcheck():
 
 @app.get("/distros")
 def get_distros():
-    return get_all_distros(data.db.s)
+    return db_orm.get_all_distros()
 
 @app.get("/distros/{distro_name}")
 def get_distro(distro_name):
-    return get_distro_by_name(data.db.s, distro_name)
+    return db_orm.get_distro_by_name(distro_name)
 
 @app.get("/desktops")
 def get_distros():
-    return get_all_desktops(data.db.s)
+    return db_orm.get_all_desktops()
 
 @app.get("/desktops/{desktop_name}")
 def get_distro(desktop_name):
-    return get_desktop_by_name(data.db.s, desktop_name)
+    return db_orm.get_desktop_by_name(desktop_name)
 
 @app.get("/kernels")
 def get_distros():
-    return get_all_kernels(data.db.s)
+    return db_orm.get_all_kernels()
 
 @app.get("/kernels/{kernel_name}")
 def get_distro(kernel_name):
-    return get_kernel_by_name(data.db.s, kernel_name)
+    return db_orm.get_kernel_by_name(kernel_name)
