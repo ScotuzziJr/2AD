@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from .config import DB_CONN_STRING
-from .models import Distro, Desktop, Kernel
+from .models import Desktop, Distro, Kernel
 
 # SOLID principle applied - Single Responsability Principle
 #   A class should do one thing and therefore it should have only a single reason to change
@@ -11,6 +11,7 @@ from .models import Distro, Desktop, Kernel
 # Here we're creating two classes:
 #   - One for database connection
 #   - One for database operations
+
 
 class DataBaseConnection:
     def __init__(self, base):
@@ -26,14 +27,15 @@ class DataBaseConnection:
         # facotry of db session - we bind our 'db' variable which is running our engine
         # the session allow us to perform operation over our db easily
         Session = sessionmaker(bind=db)
-        s       = Session()
+        s = Session()
         return s
+
 
 class DataBaseOperationsORM:
     def __init__(self, db, session, base):
-        self.db      = db 
+        self.db = db
         self.session = session
-        self.base    = base
+        self.base = base
 
     def get_all_distros(self):
         return self.session.query(Distro).all()
@@ -53,7 +55,6 @@ class DataBaseOperationsORM:
     def get_kernel_by_name(self, kernel_name):
         return self.session.query(Kernel).filter_by(name=kernel_name).first()
 
-
     def add_distro(self, distro_info):
         distro = Distro(
             name=distro_info["name"],
@@ -62,7 +63,7 @@ class DataBaseOperationsORM:
             desktop=distro_info["desktop"]["name"],
             kernel=distro_info["kernel"]["name"],
             latest_version=distro_info["latest_version"],
-            website=distro_info["website"]
+            website=distro_info["website"],
         )
 
         self.session.add(distro)
@@ -77,11 +78,9 @@ class DataBaseOperationsORM:
         self.session.add(desktop)
         self.session.commit()
 
-
     def add_kernel(self, kernel_info):
         kernel = Kernel(
-            name=kernel_info["name"],
-            latest_version=kernel_info["latest_version"]
+            name=kernel_info["name"], latest_version=kernel_info["latest_version"]
         )
 
         self.session.add(kernel)
@@ -92,18 +91,12 @@ class DataBaseOperationsORM:
         self.base.metadata.create_all(self.db)
 
     def populate_db(self):
-        desktop = {
-            "name": "GNOME",
-            "latest_version": "43"
-        }
+        desktop = {"name": "GNOME", "latest_version": "43"}
 
         if not self.session.query(Desktop).filter_by(name=desktop["name"]).first():
             self.add_desktop(desktop)
 
-        kernel = {
-            "name": "Linux",
-            "latest_version": "6.2.8"
-        }
+        kernel = {"name": "Linux", "latest_version": "6.2.8"}
 
         if not self.session.query(Kernel).filter_by(name=kernel["name"]).first():
             self.add_kernel(kernel)
@@ -115,24 +108,18 @@ class DataBaseOperationsORM:
             "desktop": desktop,
             "kernel": kernel,
             "latest_version": "22.04",
-            "website": "https://ubuntu.com/"
+            "website": "https://ubuntu.com/",
         }
 
         if not self.session.query(Distro).filter_by(name=distro["name"]).first():
             self.add_distro(distro)
 
-        desktop = {
-            "name": "Cinammon",
-            "latest_version": "5.6.7"
-        }
+        desktop = {"name": "Cinammon", "latest_version": "5.6.7"}
 
         if not self.session.query(Desktop).filter_by(name=desktop["name"]).first():
             self.add_desktop(desktop)
 
-        kernel = {
-            "name": "Linux",
-            "latest_version": "6.2.8"
-        }
+        kernel = {"name": "Linux", "latest_version": "6.2.8"}
 
         if not self.session.query(Kernel).filter_by(name=kernel["name"]).first():
             self.add_kernel(kernel)
@@ -144,24 +131,18 @@ class DataBaseOperationsORM:
             "desktop": desktop,
             "kernel": kernel,
             "latest_version": "21.1",
-            "website": "https://linuxmint.com/"
+            "website": "https://linuxmint.com/",
         }
 
         if not self.session.query(Distro).filter_by(name=distro["name"]).first():
             self.add_distro(distro)
 
-        desktop = {
-            "name": "GNOME",
-            "latest_version": "43"
-        }
+        desktop = {"name": "GNOME", "latest_version": "43"}
 
         if not self.session.query(Desktop).filter_by(name=desktop["name"]).first():
             self.add_desktop(desktop)
 
-        kernel = {
-            "name": "Linux",
-            "latest_version": "6.2.8"
-        }
+        kernel = {"name": "Linux", "latest_version": "6.2.8"}
 
         if not self.session.query(Kernel).filter_by(name=kernel["name"]).first():
             self.add_kernel(kernel)
@@ -173,24 +154,18 @@ class DataBaseOperationsORM:
             "desktop": desktop,
             "kernel": kernel,
             "latest_version": "11.6",
-            "website": "https://www.debian.org/"
+            "website": "https://www.debian.org/",
         }
 
         if not self.session.query(Distro).filter_by(name=distro["name"]).first():
             self.add_distro(distro)
 
-        desktop = {
-            "name": "GNOME",
-            "latest_version": "43"
-        }
+        desktop = {"name": "GNOME", "latest_version": "43"}
 
         if not self.session.query(Desktop).filter_by(name=desktop["name"]).first():
             self.add_desktop(desktop)
 
-        kernel = {
-            "name": "Linux",
-            "latest_version": "6.2.8"
-        }
+        kernel = {"name": "Linux", "latest_version": "6.2.8"}
 
         if not self.session.query(Kernel).filter_by(name=kernel["name"]).first():
             self.add_kernel(kernel)
@@ -202,24 +177,18 @@ class DataBaseOperationsORM:
             "desktop": desktop,
             "kernel": kernel,
             "latest_version": "37",
-            "website": "https://getfedora.org/"
+            "website": "https://getfedora.org/",
         }
 
         if not self.session.query(Distro).filter_by(name=distro["name"]).first():
             self.add_distro(distro)
 
-        desktop = {
-            "name": "GNOME",
-            "latest_version": "43"
-        }
+        desktop = {"name": "GNOME", "latest_version": "43"}
 
         if not self.session.query(Desktop).filter_by(name=desktop["name"]).first():
             self.add_desktop(desktop)
 
-        kernel = {
-            "name": "Linux",
-            "latest_version": "6.2.8"
-        }
+        kernel = {"name": "Linux", "latest_version": "6.2.8"}
 
         if not self.session.query(Kernel).filter_by(name=kernel["name"]).first():
             self.add_kernel(kernel)
@@ -231,7 +200,7 @@ class DataBaseOperationsORM:
             "desktop": desktop,
             "kernel": kernel,
             "latest_version": "2023.1",
-            "website": "https://www.kali.org/"
+            "website": "https://www.kali.org/",
         }
 
         if not self.session.query(Distro).filter_by(name=distro["name"]).first():

@@ -1,7 +1,9 @@
-import requests
 import unittest
 
+import requests
+
 BASE_URL = "http://127.0.0.1:8000/desktops"
+
 
 class TestDesktops(unittest.TestCase):
     def test_get_all_desktops_status_code_200(self):
@@ -13,7 +15,9 @@ class TestDesktops(unittest.TestCase):
         self.assertIsNotNone(res.json())
 
     def test_wrong_end_point_status_code_404(self):
-        res = requests.get(BASE_URL[:len(BASE_URL) - 1]) # endpoint will be 'desktop' instead of 'desktops'
+        res = requests.get(
+            BASE_URL[: len(BASE_URL) - 1]
+        )  # endpoint will be 'desktop' instead of 'desktops'
         self.assertEqual(res.status_code, 404)
 
     def test_get_desktop_by_name_status_code_200(self):
@@ -35,6 +39,7 @@ class TestDesktops(unittest.TestCase):
     def test_get_inexistent_distro_response_body(self):
         res = requests.get(BASE_URL + "/KDE")
         self.assertEqual(res.json(), None)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,19 +1,23 @@
-import requests
 import unittest
 
+import requests
+
 BASE_URL = "http://127.0.0.1:8000/distros"
+
 
 class TestDistros(unittest.TestCase):
     def test_get_all_distros_status_code_200(self):
         res = requests.get(BASE_URL)
         self.assertEqual(res.status_code, 200)
-    
+
     def test_get_all_distros_response_body(self):
         res = requests.get(BASE_URL)
         self.assertIsNotNone(res.json())
-    
+
     def test_wrong_end_point_status_code_404(self):
-        res = requests.get(BASE_URL[:len(BASE_URL) - 1]) # endpoint will be 'distro' instead of 'distros'
+        res = requests.get(
+            BASE_URL[: len(BASE_URL) - 1]
+        )  # endpoint will be 'distro' instead of 'distros'
         self.assertEqual(res.status_code, 404)
 
     def test_get_distro_by_name_status_code_200(self):
