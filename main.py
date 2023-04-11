@@ -11,9 +11,6 @@ s = db_conn.create_session(db)
 
 db_orm = DataBaseOperationsORM(db, s, base)
 
-db_orm.recreate_database()
-db_orm.populate_db()
-
 
 @app.get("/healthcheck")
 def healthcheck():

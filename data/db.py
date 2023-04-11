@@ -58,30 +58,27 @@ class DataBaseOperationsORM:
     def add_distro(self, distro_info):
         distro = Distro(
             name=distro_info["name"],
-            description=distro_info["description"],
+            origin=distro_info["origin"],
             based_on=distro_info["based_on"],
-            desktop=distro_info["desktop"]["name"],
-            kernel=distro_info["kernel"]["name"],
-            latest_version=distro_info["latest_version"],
+            architecture=distro_info["architecture"],
+            desktop=distro_info["desktop"],
+            kernel=distro_info["kernel"],
+            category=distro_info["category"],
+            status=distro_info["status"],
             website=distro_info["website"],
         )
 
         self.session.add(distro)
         self.session.commit()
 
-    def add_desktop(self, desktop_info):
-        desktop = Desktop(
-            name=desktop_info["name"],
-            latest_version=desktop_info["latest_version"],
-        )
+    def add_desktop(self, desktop_name):
+        desktop = Desktop(name=desktop_name)
 
         self.session.add(desktop)
         self.session.commit()
 
-    def add_kernel(self, kernel_info):
-        kernel = Kernel(
-            name=kernel_info["name"], latest_version=kernel_info["latest_version"]
-        )
+    def add_kernel(self, kernel_name):
+        kernel = Kernel(name=kernel_name)
 
         self.session.add(kernel)
         self.session.commit()

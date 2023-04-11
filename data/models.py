@@ -21,11 +21,13 @@ class Distro(base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String)
-    description = Column(String)
+    origin = Column(String)
     based_on = Column(String)
+    architecture = Column(String)
     desktop = Column(String, ForeignKey("desktop.name"))
     kernel = Column(String, ForeignKey("kernel.name"))
-    latest_version = Column(String)
+    category = Column(String)
+    status = Column(String)
     website = Column(String)
 
     desktop_ref = relationship("Desktop", backref="distro")
@@ -40,10 +42,9 @@ class Desktop(base):
 
     id = Column(UUID(as_uuid=True), default=uuid.uuid4)
     name = Column(String, primary_key=True)
-    latest_version = Column(String)
 
     def __repr__(self):
-        return f"<Desktop(name={self.name}, version={self.latest_version})>"
+        return f"<Desktop(name={self.name})>"
 
 
 class Kernel(base):
@@ -51,7 +52,6 @@ class Kernel(base):
 
     id = Column(UUID(as_uuid=True), default=uuid.uuid4)
     name = Column(String, primary_key=True)
-    latest_version = Column(String)
 
     def __repr__(self):
-        return f"<Kernel(name={self.name}, version={self.latest_version})>"
+        return f"<Kernel(name={self.name})>"
