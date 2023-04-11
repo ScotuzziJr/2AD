@@ -4,8 +4,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 
-sys.path.append("../")
-
 from data.db import DataBaseConnection, DataBaseOperationsORM
 from data.models import Desktop, Kernel, base
 
